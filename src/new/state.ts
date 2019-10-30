@@ -1,23 +1,30 @@
-interface State
+import { Line,
+  Parallelogram,
+  Parallelepiped,
+} from './geo';
+
+import { Vec3 } from './lib';
+
+export interface State
 {
   onTick(): void;
   onExit(): State;
 }
 
-export class Nothing implements State
+export class ZeroDimensions implements State
 {
   onTick = () =>
   {
   }
 
   onExit = () =>
-    new Line();
+    new OneDimension();
 }
 
-export class Line implements State
+export class OneDimension implements State
 {
-  p1: any;
-  p2: any;
+  p1: Vec3;
+  line: Line;
 
   constructor()
   {
@@ -26,62 +33,49 @@ export class Line implements State
 
   onTick = () =>
   {
-    let fline = new FLine();
-    fline.color = vec(1.0, 1.0, 1.0, 0.3);
-    fline.filled = true;
-
-    fline.moveTo(this.p1);
-
-    this.p2 = layer.vrRightHandPosition();
-    fline.lineTo(this.p2);
-
-    layer.lines.fline = fline;
+    let p2 = layer.vrRightHandPosition();
+    this.line = new Line(this.p1, p2);
+    this.line.draw();
   }
 
   onExit = () =>
-    new Plane(this.p1, this.p2);
+    new TwoDimensions(this.line.p1, this.line.p2);
 }
 
-export class Plane implements State
+export class TwoDimensions implements State
 {
-  p3: any;
-  p4: any;
+  parallelogram: Parallelogram;
 
-  constructor(private p1, private p2)
+  constructor(private p1: Vec3, private p2: Vec3)
   {
   }
 
   onTick = () =>
   {
-    this.p3 = layer.vrRightHandPosition();
-    this.p4 = this.p3 + (this.p1 - this.p2);
-
-    let fline = new FLine();
-    fline.color = vec(1.0, 1.0, 1.0, 0.3);
-    fline.filled = true;
-
-    fline.moveTo(this.p1);
-    fline.lineTo(this.p2);
-    fline.lineTo(this.p3);
-    fline.lineTo(this.p4);
-
-    layer.lines.fline = fline;
+    let p3 = layer.vrRightHandPosition();
+    this.parallelogram = new Parallelogram(this.p1, this.p2, p3);
+    this.parallelogram.draw();
   }
 
   onExit = () =>
-    new Solid();
+    new ThreeDimensions(this.parallelogram);
 }
 
-export class Solid implements State
+export class ThreeDimensions implements State
 {
-  constructor()
+  parallelepiped: Parallelepiped;
+
+  constructor(private parallelogram: Parallelogram)
   {
   }
 
   onTick = () =>
   {
+    let side = layer.vrRightHandPosition() - this.parallelogram.vertices[2];
+    this.parallelepiped = new Parallelepiped(this.parallelogram, side);
+    this.parallelepiped.draw();
   }
 
   onExit = () =>
-    new Nothing();
+    new ZeroDimensions();
 }
