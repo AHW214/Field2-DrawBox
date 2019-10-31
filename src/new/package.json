@@ -1,0 +1,19 @@
+{
+  "name": "field2-drawbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./out/main.js",
+  "scripts": {
+    "build": "tsc && sed -i '' -e s/let/var/g -e s/const/var/g ./out/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHW214/Field2-DrawBox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AHW214/Field2-DrawBox/issues"
+  },
+  "homepage": "https://github.com/AHW214/Field2-DrawBox#readme"
+}

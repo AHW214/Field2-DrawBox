@@ -28,11 +28,13 @@ export class OneDimension implements State
 
   constructor()
   {
+    // @ts-ignore
     this.p1 = layer.vrRightHandPosition();
   }
 
   onTick = () =>
   {
+    // @ts-ignore
     let p2 = layer.vrRightHandPosition();
     this.line = new Line(this.p1, p2);
     this.line.draw();
@@ -52,6 +54,7 @@ export class TwoDimensions implements State
 
   onTick = () =>
   {
+    // @ts-ignore
     let p3 = layer.vrRightHandPosition();
     this.parallelogram = new Parallelogram(this.p1, this.p2, p3);
     this.parallelogram.draw();
@@ -71,6 +74,7 @@ export class ThreeDimensions implements State
 
   onTick = () =>
   {
+    // @ts-ignore
     let side = layer.vrRightHandPosition() - this.parallelogram.vertices[2];
     this.parallelepiped = new Parallelepiped(this.parallelogram, side);
     this.parallelepiped.draw();

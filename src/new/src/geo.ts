@@ -4,6 +4,7 @@ abstract class Show
 {
   draw: () => void;
 
+  // @ts-ignore
   constructor(public color: Vec4 = vec(1.0, 1.0, 1.0, 1.0))
   {
   }
@@ -18,6 +19,7 @@ export class Line extends Show
 
   draw = () =>
   {
+    // @ts-ignore
     let fline = new FLine();
 
     fline.color = this.color;
@@ -25,6 +27,7 @@ export class Line extends Show
     fline.moveTo(this.p1);
     fline.lineTo(this.p2);
 
+    // @ts-ignore
     layer.lines.fline = fline;
   }
 }
@@ -52,6 +55,7 @@ class Polygon extends Show
 
   draw = () =>
   {
+    // @ts-ignore
     let fline = new FLine();
 
     fline.color = this.color;
@@ -60,6 +64,7 @@ class Polygon extends Show
     fline.moveTo(this.vertices[0]);
     this.vertices.forEach(v => fline.lineTo(v));
 
+    // @ts-ignore
     layer.lines.fline = fline;
   }
 }
