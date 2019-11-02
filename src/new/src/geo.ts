@@ -42,7 +42,7 @@ class Polygon extends Show
 
     if (vertices.length < 3)
     {
-      throw new Error("Plane requires at least 3 vertices");
+      throw new Error("Polygon requires at least 3 vertices");
     }
 
     this.vertices = vertices;
@@ -62,7 +62,7 @@ class Polygon extends Show
     fline.filled = true;
 
     fline.moveTo(this.vertices[0]);
-    this.vertices.forEach(v => fline.lineTo(v));
+    this.vertices.slice(1).forEach(v => fline.lineTo(v));
 
     // @ts-ignore
     layer.lines.fline = fline;

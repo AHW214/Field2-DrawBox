@@ -16,12 +16,12 @@ System.register("geo", [], function (exports_2, context_2) {
         execute: function () {
             Show = class Show {
                 // @ts-ignore
-                varructor(color = vec(1.0, 1.0, 1.0, 1.0)) {
+                constructor(color = vec(1.0, 1.0, 1.0, 1.0)) {
                     this.color = color;
                 }
             };
             Line = class Line extends Show {
-                varructor(p1, p2, color) {
+                constructor(p1, p2, color) {
                     super(color);
                     this.p1 = p1;
                     this.p2 = p2;
@@ -38,7 +38,7 @@ System.register("geo", [], function (exports_2, context_2) {
             };
             exports_2("Line", Line);
             Polygon = class Polygon extends Show {
-                varructor(vertices, color) {
+                constructor(vertices, color) {
                     super(color);
                     this.draw = () => {
                         // @ts-ignore
@@ -60,14 +60,14 @@ System.register("geo", [], function (exports_2, context_2) {
                 }
             };
             Parallelogram = class Parallelogram extends Polygon {
-                varructor(v1, v2, v3, color) {
+                constructor(v1, v2, v3, color) {
                     var v4 = v3 + (v1 - v2);
                     super(new Array(v1, v2, v3, v4), color);
                 }
             };
             exports_2("Parallelogram", Parallelogram);
             Parallelepiped = class Parallelepiped extends Show {
-                varructor(base, side, color) {
+                constructor(base, side, color) {
                     super(color);
                     this.draw = () => {
                         this.faces.forEach(f => f.draw());
@@ -100,7 +100,7 @@ System.register("state", ["geo"], function (exports_3, context_3) {
         ],
         execute: function () {
             ZeroDimensions = class ZeroDimensions {
-                varructor() {
+                constructor() {
                     this.onTick = () => {
                     };
                     this.onExit = () => new OneDimension();
@@ -108,7 +108,7 @@ System.register("state", ["geo"], function (exports_3, context_3) {
             };
             exports_3("ZeroDimensions", ZeroDimensions);
             OneDimension = class OneDimension {
-                varructor() {
+                constructor() {
                     this.onTick = () => {
                         // @ts-ignore
                         var p2 = layer.vrRightHandPosition();
@@ -122,7 +122,7 @@ System.register("state", ["geo"], function (exports_3, context_3) {
             };
             exports_3("OneDimension", OneDimension);
             TwoDimensions = class TwoDimensions {
-                varructor(p1, p2) {
+                constructor(p1, p2) {
                     this.p1 = p1;
                     this.p2 = p2;
                     this.onTick = () => {
@@ -136,7 +136,7 @@ System.register("state", ["geo"], function (exports_3, context_3) {
             };
             exports_3("TwoDimensions", TwoDimensions);
             ThreeDimensions = class ThreeDimensions {
-                varructor(parallelogram) {
+                constructor(parallelogram) {
                     this.parallelogram = parallelogram;
                     this.onTick = () => {
                         // @ts-ignore
@@ -153,7 +153,7 @@ System.register("state", ["geo"], function (exports_3, context_3) {
 });
 System.register("main", ["state"], function (exports_4, context_4) {
     "use strict";
-    var state_1, state;
+    var state_1, layer, state;
     var __moduleName = context_4 && context_4.id;
     return {
         setters: [
@@ -162,6 +162,10 @@ System.register("main", ["state"], function (exports_4, context_4) {
             }
         ],
         execute: function () {
+            //@ts-ignore
+            layer = _.stage.withName("draw box");
+            layer.vrDefaults();
+            layer.lines.clear();
             state = new state_1.ZeroDimensions();
             // @ts-ignore
             layer.vrButtons.triggerDown.myCallback = () => {

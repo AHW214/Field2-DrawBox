@@ -4,7 +4,7 @@
   "description": "",
   "main": "./out/main.js",
   "scripts": {
-    "build": "tsc && sed -i '' -e s/let/var/g -e s/const/var/g ./out/main.js"
+    "build": "tsc && sed -i -E \"s/\\<let|const\\>/var/g\" ./out/main.js"
   },
   "repository": {
     "type": "git",
